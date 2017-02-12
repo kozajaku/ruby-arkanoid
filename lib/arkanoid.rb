@@ -10,4 +10,3 @@ module Arkanoid
   end
 end
 
-Arkanoid.show_window

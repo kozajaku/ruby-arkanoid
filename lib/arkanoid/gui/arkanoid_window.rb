@@ -22,7 +22,7 @@ module Arkanoid
           @game.paddle_left_up
         end
         if Gosu.button_down? Gosu::KB_A or Gosu.button_down? Gosu::KB_D
-          # todo release ball
+          @game.paddle_left_release
         end
         # player 2 keys
         if Gosu.button_down? Gosu::KB_DOWN
@@ -32,7 +32,7 @@ module Arkanoid
           @game.paddle_right_up
         end
         if Gosu.button_down? Gosu::KB_RIGHT or Gosu.button_down? Gosu::KB_LEFT
-          # todo release ball
+          @game.paddle_right_release
         end
         @game.tick
       end

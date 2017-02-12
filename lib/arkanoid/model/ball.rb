@@ -19,9 +19,20 @@ module Arkanoid
         @speed = speed
         @radius = radius
         @game = game
+        @frozen_to = nil
+        @frozen_countdown = BALL_FROZEN_TIMEOUT
       end
 
       def move
+        # frozen ball functionality
+        unless @frozen_to.nil?
+          @frozen_countdown -= 1
+          if @frozen_countdown == 0
+            release_ball
+          else
+            return
+          end
+        end
         # count move vectors
         x_move = @speed * Math.cos(radian_angle)
         y_move = @speed * Math.sin(radian_angle)
@@ -38,6 +49,18 @@ module Arkanoid
         # todo implement block bounces
         # detect ball out of game
         detect_ball_out
+      end
+
+      # Unfreeze the ball and inform the paddle the ball is frozen to
+      def release_ball
+        @frozen_to.release_ball(self) unless @frozen_to.nil?
+        @frozen_to = nil
+      end
+
+      # freeze the ball
+      def freeze_to(paddle)
+        @frozen_to = paddle
+        @frozen_countdown = BALL_FROZEN_TIMEOUT
       end
 
       # Gets current angle in radians

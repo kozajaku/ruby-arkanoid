@@ -8,6 +8,7 @@ module Arkanoid
       # ball implicit constants
       BALL_RADIUS = 10 #pixels
       BALL_SPEED = 4 #pixels per move
+      BALL_FROZEN_TIMEOUT = 300 # fraps
 
       # wall boundaries definition
       TOP_WALL_Y = 20
