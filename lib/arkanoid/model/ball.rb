@@ -36,6 +36,8 @@ module Arkanoid
         # detect paddle bounce
         @game.paddles.each { |paddle| paddle.ball_collision(self) }
         # todo implement block bounces
+        # detect ball out of game
+        detect_ball_out
       end
 
       # Gets current angle in radians
@@ -66,7 +68,7 @@ module Arkanoid
       # Detect bounce against bottom wall.
       # If it bounces, returns new y coordinate of ball, changes angle if necessary.
       def bottom_wall_bounce(next_y)
-        delta = @game.bottom_wall - next_y + @radius
+        delta = @game.bottom_wall - next_y - @radius
         if delta <= 0
           # do bounce
           next_y = @game.bottom_wall + delta - @radius
@@ -79,6 +81,13 @@ module Arkanoid
       # angle mirror projection around y axis. eg. for 280 -> 260, 120 -> 60, ...
       def mirror_angle_horizontally!
         @angle = (-@angle) % 360
+      end
+
+      def detect_ball_out
+        if x + radius < 0 or y + radius < 0 or
+            x - radius > @game.width or y - radius > @game.height
+          @game.ball_lost(self)
+        end
       end
 
     end #Ball

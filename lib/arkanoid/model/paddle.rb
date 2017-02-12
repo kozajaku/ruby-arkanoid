@@ -5,6 +5,11 @@ module Arkanoid
     # Represents player's paddle in the game.
     class Paddle
       include Constants
+
+      attr_accessor :pos_x, :pos_y
+      attr_reader :height
+      alias_method :x, :pos_x
+      alias_method :y, :pos_y
       # x, y represents top side of paddle, bottom is (x, y + height)
       def initialize(game, x, y)
         @game = game
@@ -50,6 +55,9 @@ module Arkanoid
         return if col.nil?
         d = col - (@pos_y + @height / 2.0)
         ball.angle = count_output_angle(ball.angle, d)
+        # set angle limit
+        ball.angle = 290 if ball.angle.between?(180, 290)
+        ball.angle = 70 if ball.angle.between?(70, 180)
         # outbounce
         delta = ball.x - ball.radius - @pos_x
         if delta < 0
@@ -64,6 +72,9 @@ module Arkanoid
         return if col.nil?
         d = (@pos_y + @height / 2.0) - col
         ball.angle = count_output_angle(ball.angle, d)
+        # set angle limit
+        ball.angle = 250 if ball.angle.between?(250, 359)
+        ball.angle = 110 if ball.angle.between?(0, 110)
         # outbounce
         delta = @pos_x - (ball.x + ball.radius)
         if delta < 0
@@ -97,7 +108,7 @@ module Arkanoid
         if y1.between?(py1, py2) and y2.between?(py1, py2)
           # both collision points are on the paddle - return avg
           (y1 + y2) / 2
-        elsif y1.between?(py1, py2) or y2.between(py1, py2)
+        elsif y1.between?(py1, py2) or y2.between?(py1, py2)
           # exactly one point is on the paddle
           avg = (y1 + y2) / 2
           if avg.between?(py1, py2)

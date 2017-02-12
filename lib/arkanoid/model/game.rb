@@ -20,8 +20,10 @@ module Arkanoid
         @bottom_wall = BOTTOM_WALL_Y
         @width = GAME_WIDTH
         @height = GAME_HEIGHT
-        @balls = [Ball.new(self, 10, 200, 45)]
-        @paddles = [Paddle.new(self, 0, 70), Paddle.new(self, 500, 110)]
+        @balls = (-70..70).collect { |i| Ball.new(self, 40, 400, i) }
+        # @balls = [Ball.new(self, 10, 200, -45),Ball.new(self, 10, 200, -20),Ball.new(self, 10, 200, 0),Ball.new(self, 10, 200, 20),Ball.new(self, 10, 200, 45)]
+        paddle_y = @height / 2 - PADDLE_SIZE / 2
+        @paddles = [Paddle.new(self, PADDLE_LEFT_X, paddle_y), Paddle.new(self, PADDLE_RIGHT_X, paddle_y)]
       end
 
       # This method is called every frame. It provides movement
@@ -29,8 +31,42 @@ module Arkanoid
       def tick
         @balls.each do |ball|
           ball.move
-          puts ball
         end
+      end
+
+      # This method is called by controller when player 1 clicks move paddle down.
+      def paddle_left_down
+        @paddles[0].move_down
+      end
+
+      # This method is called by controller when player 1 clicks move paddle up.
+      def paddle_left_up
+        @paddles[0].move_up
+      end
+
+      # This method is called by controller when player 2 clicks move paddle down.
+      def paddle_right_down
+        @paddles[1].move_down
+      end
+
+      # This method is called by controller when player 2 clicks move paddle up.
+      def paddle_right_up
+        @paddles[1].move_up
+      end
+
+      # Accept generic visitor for visiting components. This could be used for example
+      # for components drawing to ensure low coupling in model tier.
+      def accept_visitor(visitor)
+        #todo visit blocks
+        #todo visit bonuses
+        visitor.visit_left_paddle(@paddles[0])
+        visitor.visit_right_paddle(@paddles[1])
+        @balls.each { |ball| visitor.visit_ball(ball) }
+      end
+
+      def ball_lost(ball)
+        #todo implement game action
+        @balls.delete(ball)
       end
     end
   end

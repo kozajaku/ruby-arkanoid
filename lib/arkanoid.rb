@@ -1,14 +1,13 @@
 require 'arkanoid/version'
 require 'arkanoid/model/game'
+require 'arkanoid/gui/arkanoid_window'
 
 module Arkanoid
-  def self.start_game
+
+  def self.show_window
     game = Model::Game.new(nil)
-    (1..1000).each do |i|
-      game.tick
-      sleep(0.025)
-    end
+    Gui::ArkanoidWindow.new(game).show
   end
 end
 
-Arkanoid.start_game
+Arkanoid.show_window
