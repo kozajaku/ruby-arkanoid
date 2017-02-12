@@ -14,12 +14,12 @@ module Arkanoid
 
       def visit_left_paddle(paddle)
         scale = paddle.height.to_f / @paddle_left_image.height
-        @paddle_left_image.draw(paddle.x - 10, paddle.y, 4, 1, scale)
+        @paddle_left_image.draw(paddle.x - @paddle_left_image.width, paddle.y, 4, 1, scale)
       end
 
       def visit_right_paddle(paddle)
         scale = paddle.height.to_f / @paddle_right_image.height
-        @paddle_right_image.draw(paddle.x - 10, paddle.y, 4, 1, scale)
+        @paddle_right_image.draw(paddle.x, paddle.y, 4, 1, scale)
       end
 
       def visit_block(block)

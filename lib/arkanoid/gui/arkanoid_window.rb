@@ -42,7 +42,7 @@ module Arkanoid
         @background_image.draw(0, 0, 0)
         # draw walls
         @wall_top_image.draw(0, 0, 1)
-        @wall_bottom_image.draw(0, @game.height - 21, 1)
+        @wall_bottom_image.draw(0, @game.height - @wall_bottom_image.height, 1)
         @game.accept_visitor(@draw_visitor)
       end
 
