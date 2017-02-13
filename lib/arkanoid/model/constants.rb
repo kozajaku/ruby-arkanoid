@@ -3,7 +3,7 @@ module Arkanoid
     module Constants
       # game dimensions
       GAME_WIDTH = 1200
-      GAME_HEIGHT = 800
+      GAME_HEIGHT = 798
 
       # ball implicit constants
       BALL_RADIUS = 10 #pixels
@@ -11,7 +11,7 @@ module Arkanoid
       BALL_FROZEN_TIMEOUT = 300 # fraps
 
       # wall boundaries definition
-      TOP_WALL_Y = 20
+      TOP_WALL_Y = 21
       BOTTOM_WALL_Y = GAME_HEIGHT - TOP_WALL_Y
 
       # paddle constants definition
@@ -21,6 +21,25 @@ module Arkanoid
       PADDLE_RIGHT_X = GAME_WIDTH - PADDLE_LEFT_X
       # 70 degree bounce away when ball hits the paddle on the side under 0 degree
       PADDLE_BOUNCE_CONSTANT = 2 * Math.tan((70.0 / 2.0) / 180.0 * Math::PI)
+
+      # blocks constants definition
+      BLOCK_SIZE = 42
+      BLOCK_MAX_ROWS = 18
+      BLOCK_MAX_COLS = 15
+      module BlockType
+        NONE = 0
+        YELLOW = 1
+        ORANGE = 2
+        RED = 3
+        GRAY = 4
+        BLACK = 5
+        BLUE = 6
+        GREEN = 7
+
+        def self.random
+          rand(1..7)
+        end
+      end
     end
   end
 end

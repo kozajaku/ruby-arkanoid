@@ -37,7 +37,7 @@ module Arkanoid
         next_y = @game.bottom_wall - @height if next_y + @height > @game.bottom_wall
         delta = next_y - @pos_y
         @pos_y = next_y
-        @caught_balls.each { |ball| ball.pos_y += delta  }
+        @caught_balls.each { |ball| ball.pos_y += delta }
       end
 
       # Detects collision with the ball. If it happens
@@ -74,7 +74,8 @@ module Arkanoid
       def create_new_ball
         ball_x = @left_paddle ? x + BALL_RADIUS : x - BALL_RADIUS
         ball_y = y + height / 2
-        ball_angle = @left_paddle ? 30 : 210
+        ball_angle = rand(0..7) * 10 - 35
+        ball_angle += 180 unless @left_paddle
         ball = Ball.new(@game, ball_x, ball_y, ball_angle)
         catch_ball(ball)
         ball

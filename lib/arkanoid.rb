@@ -5,7 +5,7 @@ require 'arkanoid/gui/arkanoid_window'
 module Arkanoid
 
   def self.show_window
-    game = Model::Game.new(nil)
+    game = Model::Game.new
     Gui::ArkanoidWindow.new(game).show
   end
 end

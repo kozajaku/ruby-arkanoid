@@ -46,7 +46,8 @@ module Arkanoid
         @pos_y = next_y
         # detect paddle bounce
         @game.paddles.each { |paddle| paddle.ball_collision(self) }
-        # todo implement block bounces
+        # detect blocks collision
+        @game.map.ball_collision(self)
         # detect ball out of game
         detect_ball_out
       end
@@ -71,6 +72,16 @@ module Arkanoid
       # Converting to str for debug purposes.
       def to_s
         "[#{@pos_x}, #{@pos_y}, #{@angle}]"
+      end
+
+      # angle mirror projection around y axis. eg. for 80 -> 280, 120 -> 240, ...
+      def mirror_angle_horizontally!
+        @angle = (-@angle) % 360
+      end
+
+      # angle mirror projection around x axis. eg. for 0 -> 180, 45 -> 135, ...
+      def mirror_angle_vertically!
+        @angle = (180 - @angle) % 360
       end
 
       private
@@ -101,16 +112,9 @@ module Arkanoid
       end
 
 
-      # angle mirror projection around y axis. eg. for 280 -> 260, 120 -> 60, ...
-      def mirror_angle_horizontally!
-        @angle = (-@angle) % 360
-      end
-
       def detect_ball_out
-        if x + radius < 0 or y + radius < 0 or
-            x - radius > @game.width or y - radius > @game.height
-          @game.ball_lost(self)
-        end
+        @game.ball_lost(self, true) if x + radius < 0
+        @game.ball_lost(self, false) if x - radius > @game.width
       end
 
     end #Ball

@@ -1,6 +1,7 @@
 require_relative 'constants'
 require_relative 'ball'
 require_relative 'paddle'
+require_relative 'game_map'
 
 module Arkanoid
   module Model
@@ -12,10 +13,9 @@ module Arkanoid
 
       attr_reader :top_wall, :bottom_wall
       attr_reader :width, :height
-      attr_reader :paddles, :balls
+      attr_reader :paddles, :balls, :map
 
-      def initialize(map)
-        @map = map
+      def initialize
         @top_wall = TOP_WALL_Y
         @bottom_wall = BOTTOM_WALL_Y
         @width = GAME_WIDTH
@@ -26,6 +26,7 @@ module Arkanoid
         @paddles.each { |paddle| @balls << paddle.create_new_ball }
         # @balls = (-70..70).collect { |i| Ball.new(self, 40, 400, i) }
         # @balls = [Ball.new(self, 10, 200, -45),Ball.new(self, 10, 200, -20),Ball.new(self, 10, 200, 0),Ball.new(self, 10, 200, 20),Ball.new(self, 10, 200, 45)]
+        @map = GameMap.all_random(self)
       end
 
       # This method is called every frame. It provides movement
@@ -73,12 +74,18 @@ module Arkanoid
         #todo visit bonuses
         visitor.visit_left_paddle(@paddles[0])
         visitor.visit_right_paddle(@paddles[1])
+        @map.accept_visitor(visitor)
         @balls.each { |ball| visitor.visit_ball(ball) }
       end
 
-      def ball_lost(ball)
-        #todo implement game action
+
+      # This method is called when one of the balls is lost.
+      # It also informs which side the ball was lost on.
+      def ball_lost(ball, left)
         @balls.delete(ball)
+        if @balls.length < 2
+          @balls << (left ? @paddles[0] : @paddles[1]).create_new_ball
+        end
       end
     end
   end

@@ -1,3 +1,5 @@
+require_relative '../model/constants'
+
 module Arkanoid
   module Gui
     class DrawVisitor
@@ -6,6 +8,17 @@ module Arkanoid
         @ball_image = Gosu::Image.new('media/ball.png')
         @paddle_left_image = Gosu::Image.new('media/paddle_left_s.png')
         @paddle_right_image = Gosu::Image.new('media/paddle_right_s.png')
+        # load block images
+        types = Model::Constants::BlockType
+        @block_images = {
+            types::BLACK => Gosu::Image.new('media/blocks/block_black.png'),
+            types::BLUE => Gosu::Image.new('media/blocks/block_blue.png'),
+            types::GRAY => Gosu::Image.new('media/blocks/block_gray.png'),
+            types::GREEN => Gosu::Image.new('media/blocks/block_green.png'),
+            types::ORANGE => Gosu::Image.new('media/blocks/block_orange.png'),
+            types::RED => Gosu::Image.new('media/blocks/block_red.png'),
+            types::YELLOW => Gosu::Image.new('media/blocks/block_yellow.png'),
+        }.freeze
       end
 
       def visit_ball(ball)
@@ -23,7 +36,8 @@ module Arkanoid
       end
 
       def visit_block(block)
-
+        image = @block_images[block.type]
+        image.draw(block.x, block.y, 3)
       end
 
       def visit_bonus(bonus)
