@@ -1,4 +1,5 @@
 require_relative '../model/constants'
+require_relative '../model/bonus/bonus'
 
 module Arkanoid
   module Gui
@@ -19,7 +20,18 @@ module Arkanoid
             block_types::RED => Gosu::Image.new('media/blocks/block_red.png'),
             block_types::YELLOW => Gosu::Image.new('media/blocks/block_yellow.png'),
         }.freeze
-        @bonus_image = Gosu::Image.new('media/blocks/block_black.png')
+        bonus_types = Model::Bonus
+        @bonus_images = {
+            bonus_types::Triple => Gosu::Image.new('media/bonuses/lblue.png'),
+            bonus_types::Catchy => Gosu::Image.new('media/bonuses/green.png'),
+            bonus_types::BigPaddle => Gosu::Image.new('media/bonuses/dblue-up.png'),
+            bonus_types::SmallPaddle => Gosu::Image.new('media/bonuses/dblue-down.png'),
+            bonus_types::IncBalls => Gosu::Image.new('media/bonuses/red-up.png'),
+            bonus_types::DecBalls => Gosu::Image.new('media/bonuses/red-down.png'),
+            bonus_types::IncPaddle => Gosu::Image.new('media/bonuses/orange-up.png'),
+            bonus_types::DecPaddle => Gosu::Image.new('media/bonuses/orange-down.png'),
+            bonus_types::RandomBonus => Gosu::Image.new('media/bonuses/purple.png')
+        }
       end
 
       def visit_ball(ball)
@@ -42,7 +54,8 @@ module Arkanoid
       end
 
       def visit_bonus(bonus)
-        @bonus_image.draw(bonus.x, bonus.y, 4)
+        image = @bonus_images[bonus.class]
+        image.draw(bonus.x, bonus.y, 4)
       end
     end
   end

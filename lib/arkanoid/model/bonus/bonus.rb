@@ -8,6 +8,7 @@ require_relative 'inc_paddle'
 require_relative 'big_paddle'
 require_relative 'small_paddle'
 require_relative 'catchy'
+require_relative 'random_bonus'
 
 module Arkanoid
   module Model

@@ -45,7 +45,7 @@ module Arkanoid
       # bonuses constants definition
       BONUS_SIZE = BLOCK_SIZE
       BONUS_SPEED = 1
-      BONUS_PROBABILITY = 0.1
+      BONUS_PROBABILITY = 0.15
     end
   end
 end
