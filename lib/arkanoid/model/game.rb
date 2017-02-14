@@ -2,6 +2,7 @@ require_relative 'constants'
 require_relative 'ball'
 require_relative 'paddle'
 require_relative 'game_map'
+require_relative 'map_database'
 
 module Arkanoid
   module Model
@@ -28,7 +29,8 @@ module Arkanoid
         @paddles.each { |paddle| @balls << paddle.create_new_ball }
         # @balls = (-70..70).collect { |i| Ball.new(self, 40, 400, i) }
         # @balls = [Ball.new(self, 10, 200, -45),Ball.new(self, 10, 200, -20),Ball.new(self, 10, 200, 0),Ball.new(self, 10, 200, 20),Ball.new(self, 10, 200, 45)]
-        @map = GameMap.all_green(self)
+        @map_database = MapDatabase.new(self)
+        @map = @map_database.next_map
       end
 
       # This method is called every frame. It provides movement
@@ -51,6 +53,20 @@ module Arkanoid
             ball.speed *= 1.1
           end
         end
+      end
+
+      # Called when it is necessary to change the map in the game.
+      # This method resets balls and paddles to its original positions.
+      def next_map
+        @speedup_countdown = GAME_SPEEDUP_INTERVAL
+        @balls.clear
+        @bonuses.clear
+        @paddles.each do |paddle|
+           #center the paddle
+          paddle.pos_y = @height / 2 - paddle.height / 2
+          @balls << paddle.create_new_ball
+        end
+        @map = @map_database.next_map
       end
 
       # This method is called by controller when player 1 clicks move paddle down.
