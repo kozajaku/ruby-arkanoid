@@ -6,11 +6,15 @@ module Arkanoid
       def initialize(game)
         super game.width, game.height
         self.caption = 'Arkanoid Game'
-        @background_image = Gosu::Image.new('media/background.png', :tileable => true)
-        @wall_top_image = Gosu::Image.new('media/wall_top.png', :tileable => true)
-        @wall_bottom_image = Gosu::Image.new('media/wall_bottom.png', :tileable => true)
+        @background_image = Gosu::Image.new(media('background.png'), :tileable => true)
+        @wall_top_image = Gosu::Image.new(media('wall_top.png'), :tileable => true)
+        @wall_bottom_image = Gosu::Image.new(media('wall_bottom.png'), :tileable => true)
         @game = game
         @draw_visitor = DrawVisitor.new
+      end
+
+      def media(path)
+        File.expand_path(path, (File.expand_path '../../../media', File.dirname(__FILE__)))
       end
 
       def update
