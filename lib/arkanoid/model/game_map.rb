@@ -12,7 +12,7 @@ module Arkanoid
         blocks = Array.new(BLOCK_MAX_ROWS) { Array.new(BLOCK_MAX_COLS) }
         (0..blocks.length - 1).each do |row|
           (0..blocks[0].length - 1).each do |col|
-            blocks[row][col] = Block.new(BlockType::GREEN)
+            blocks[row][col] = Block.new(BlockType::GREEN, game)
           end
         end
         self.new(game, blocks)
@@ -23,7 +23,7 @@ module Arkanoid
         blocks = Array.new(BLOCK_MAX_ROWS) { Array.new(BLOCK_MAX_COLS) }
         (0..blocks.length - 1).each do |row|
           (0..blocks[0].length - 1).each do |col|
-            blocks[row][col] = Block.new(BlockType.random)
+            blocks[row][col] = Block.new(BlockType.random, game)
           end
         end
         self.new(game, blocks)
@@ -57,6 +57,12 @@ module Arkanoid
       def ball_collision(ball)
         move_x, move_y = count_move_vector(ball)
         mx, my = pixels_to_grid(ball.x, ball.y)
+        if inside?(mx, my)
+          # just to be sure - should not happen (only when the ball is very fast)
+          ball.angle = (ball.angle + 180) % 360
+          @blocks[my][mx] = nil if @blocks[my][mx].hit!
+          return
+        end
         xex = inside?(mx + move_x, my)
         yex = inside?(mx, my + move_y)
         if xex or yex

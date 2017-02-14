@@ -13,27 +13,43 @@ module Arkanoid
 
       attr_reader :top_wall, :bottom_wall
       attr_reader :width, :height
-      attr_reader :paddles, :balls, :map
+      attr_reader :paddles, :balls, :bonuses, :map
 
       def initialize
         @top_wall = TOP_WALL_Y
         @bottom_wall = BOTTOM_WALL_Y
         @width = GAME_WIDTH
         @height = GAME_HEIGHT
+        @speedup_countdown = GAME_SPEEDUP_INTERVAL
         paddle_y = @height / 2 - PADDLE_SIZE / 2
         @paddles = [Paddle.new(self, PADDLE_LEFT_X, paddle_y, true), Paddle.new(self, PADDLE_RIGHT_X, paddle_y, false)]
         @balls = []
+        @bonuses = []
         @paddles.each { |paddle| @balls << paddle.create_new_ball }
         # @balls = (-70..70).collect { |i| Ball.new(self, 40, 400, i) }
         # @balls = [Ball.new(self, 10, 200, -45),Ball.new(self, 10, 200, -20),Ball.new(self, 10, 200, 0),Ball.new(self, 10, 200, 20),Ball.new(self, 10, 200, 45)]
-        @map = GameMap.all_random(self)
+        @map = GameMap.all_green(self)
       end
 
       # This method is called every frame. It provides movement
       # for every element that is capable of doing so.
       def tick
+        # move balls
         @balls.each do |ball|
           ball.move
+        end
+        # move bonuses
+        @bonuses.delete_if do |bonus|
+          bonus.move
+          bonus.is_out?
+        end
+        # check for speedup
+        @speedup_countdown -= 1
+        if @speedup_countdown == 0
+          @speedup_countdown = GAME_SPEEDUP_INTERVAL
+          @balls.each do |ball|
+            ball.speed *= 1.1
+          end
         end
       end
 
@@ -70,11 +86,10 @@ module Arkanoid
       # Accept generic visitor for visiting components. This could be used for example
       # for components drawing to ensure low coupling in model tier.
       def accept_visitor(visitor)
-        #todo visit blocks
-        #todo visit bonuses
         visitor.visit_left_paddle(@paddles[0])
         visitor.visit_right_paddle(@paddles[1])
         @map.accept_visitor(visitor)
+        @bonuses.each { |bonus| visitor.visit_bonus(bonus) }
         @balls.each { |ball| visitor.visit_ball(ball) }
       end
 

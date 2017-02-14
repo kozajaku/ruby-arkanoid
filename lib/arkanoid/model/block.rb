@@ -1,4 +1,5 @@
 require_relative 'constants'
+require_relative 'bonus/bonus'
 
 module Arkanoid
   module Model
@@ -10,10 +11,11 @@ module Arkanoid
       alias_method :x, :pos_x
       alias_method :y, :pos_y
 
-      def initialize(type)
+      def initialize(type, game)
         @type = type
         @pos_x = nil
         @pos_y = nil
+        @game = game
       end
 
       # This method is called by the GameMap when it finds out the final block position.
@@ -39,7 +41,9 @@ module Arkanoid
                   else
                     BlockType::NONE
                 end
-        @type == BlockType::NONE ? true : false
+        res = @type == BlockType::NONE ? true : false
+        possible_bonus! if res
+        res
       end
 
       # Detects collision with ball. Adjusts ball's angle if
@@ -98,6 +102,12 @@ module Arkanoid
       def right_wall_collide(ball)
         ball.mirror_angle_vertically!
         ball.pos_x = 2 * (@pos_x + BLOCK_SIZE) - ball.x + 2 * ball.radius
+      end
+
+      # This method is called whenever block is destroyed.
+      # Generates bonus with some probability.
+      def possible_bonus!
+        @game.bonuses << Bonus.random_bonus(@pos_x, @pos_y, @game) if rand <= BONUS_PROBABILITY
       end
     end
   end

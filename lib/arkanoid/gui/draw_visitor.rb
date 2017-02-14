@@ -9,16 +9,17 @@ module Arkanoid
         @paddle_left_image = Gosu::Image.new('media/paddle_left_s.png')
         @paddle_right_image = Gosu::Image.new('media/paddle_right_s.png')
         # load block images
-        types = Model::Constants::BlockType
+        block_types = Model::Constants::BlockType
         @block_images = {
-            types::BLACK => Gosu::Image.new('media/blocks/block_black.png'),
-            types::BLUE => Gosu::Image.new('media/blocks/block_blue.png'),
-            types::GRAY => Gosu::Image.new('media/blocks/block_gray.png'),
-            types::GREEN => Gosu::Image.new('media/blocks/block_green.png'),
-            types::ORANGE => Gosu::Image.new('media/blocks/block_orange.png'),
-            types::RED => Gosu::Image.new('media/blocks/block_red.png'),
-            types::YELLOW => Gosu::Image.new('media/blocks/block_yellow.png'),
+            block_types::BLACK => Gosu::Image.new('media/blocks/block_black.png'),
+            block_types::BLUE => Gosu::Image.new('media/blocks/block_blue.png'),
+            block_types::GRAY => Gosu::Image.new('media/blocks/block_gray.png'),
+            block_types::GREEN => Gosu::Image.new('media/blocks/block_green.png'),
+            block_types::ORANGE => Gosu::Image.new('media/blocks/block_orange.png'),
+            block_types::RED => Gosu::Image.new('media/blocks/block_red.png'),
+            block_types::YELLOW => Gosu::Image.new('media/blocks/block_yellow.png'),
         }.freeze
+        @bonus_image = Gosu::Image.new('media/blocks/block_black.png')
       end
 
       def visit_ball(ball)
@@ -41,7 +42,7 @@ module Arkanoid
       end
 
       def visit_bonus(bonus)
-
+        @bonus_image.draw(bonus.x, bonus.y, 4)
       end
     end
   end

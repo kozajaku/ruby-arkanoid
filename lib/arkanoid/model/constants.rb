@@ -4,6 +4,7 @@ module Arkanoid
       # game dimensions
       GAME_WIDTH = 1200
       GAME_HEIGHT = 798
+      GAME_SPEEDUP_INTERVAL = 900
 
       # ball implicit constants
       BALL_RADIUS = 10 #pixels
@@ -40,6 +41,11 @@ module Arkanoid
           rand(1..7)
         end
       end
+
+      # bonuses constants definition
+      BONUS_SIZE = BLOCK_SIZE
+      BONUS_SPEED = 1
+      BONUS_PROBABILITY = 0.1
     end
   end
 end

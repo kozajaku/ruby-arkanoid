@@ -7,8 +7,8 @@ module Arkanoid
     class Paddle
       include Constants
 
-      attr_accessor :pos_x, :pos_y
-      attr_reader :height
+      attr_accessor :pos_x, :pos_y, :height, :catchy, :speed
+      attr_reader :game, :left_paddle
       alias_method :x, :pos_x
       alias_method :y, :pos_y
       # x, y represents top side of paddle, bottom is (x, y + height)
@@ -20,6 +20,7 @@ module Arkanoid
         @speed = PADDLE_MOVE_STEP
         @left_paddle = left_paddle
         @caught_balls = []
+        @catchy = false
       end
 
       #try to move the paddle up if possible
@@ -95,9 +96,14 @@ module Arkanoid
         ball.angle = 290 if ball.angle.between?(180, 290)
         ball.angle = 70 if ball.angle.between?(70, 180)
         # outbounce
-        delta = ball.x - ball.radius - @pos_x
-        if delta < 0
-          ball.x = @pos_x - delta + ball.radius
+        if @catchy
+          ball.x = @pos_x + ball.radius
+          catch_ball(ball)
+        else
+          delta = ball.x - ball.radius - @pos_x
+          if delta < 0
+            ball.x = @pos_x - delta + ball.radius
+          end
         end
       end
 
@@ -113,9 +119,14 @@ module Arkanoid
         ball.angle = 250 if ball.angle.between?(250, 359)
         ball.angle = 110 if ball.angle.between?(0, 110)
         # outbounce
-        delta = @pos_x - (ball.x + ball.radius)
-        if delta < 0
-          ball.x = @pos_x + delta - ball.radius
+        if @catchy
+          ball.x = @pos_x - ball.radius
+          catch_ball(ball)
+        else
+          delta = @pos_x - (ball.x + ball.radius)
+          if delta < 0
+            ball.x = @pos_x + delta - ball.radius
+          end
         end
       end
 

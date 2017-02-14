@@ -7,7 +7,7 @@ module Arkanoid
       include Constants
 
       attr_reader :radius
-      attr_accessor :angle, :x, :y, :pos_x, :pos_y
+      attr_accessor :angle, :x, :y, :pos_x, :pos_y, :speed
       alias_method :x, :pos_x
       alias_method :y, :pos_y
 
