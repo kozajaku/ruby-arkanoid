@@ -1,5 +1,6 @@
 module Arkanoid
   module Model
+    # Module represents all ingame preset constants.
     module Constants
       # game dimensions
       GAME_WIDTH = 1200
@@ -7,8 +8,8 @@ module Arkanoid
       GAME_SPEEDUP_INTERVAL = 900
 
       # ball implicit constants
-      BALL_RADIUS = 10 #pixels
-      BALL_SPEED = 4 #pixels per move
+      BALL_RADIUS = 10 # pixels
+      BALL_SPEED = 4 # pixels per move
       BALL_FROZEN_TIMEOUT = 300 # fraps
 
       # wall boundaries definition
@@ -20,13 +21,15 @@ module Arkanoid
       PADDLE_SIZE = 100
       PADDLE_LEFT_X = 30
       PADDLE_RIGHT_X = GAME_WIDTH - PADDLE_LEFT_X
-      # 70 degree bounce away when ball hits the paddle on the side under 0 degree
+      # 70 degree bounce away when ball hits a paddle on the side under 0 degree
       PADDLE_BOUNCE_CONSTANT = 2 * Math.tan((70.0 / 2.0) / 180.0 * Math::PI)
 
       # blocks constants definition
       BLOCK_SIZE = 42
       BLOCK_MAX_ROWS = 18
       BLOCK_MAX_COLS = 15
+
+      # This module represents all possible block types.
       module BlockType
         NONE = 0
         YELLOW = 1

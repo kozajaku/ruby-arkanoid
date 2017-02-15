@@ -23,12 +23,11 @@ module Arkanoid
         @height = GAME_HEIGHT
         @speedup_countdown = GAME_SPEEDUP_INTERVAL
         paddle_y = @height / 2 - PADDLE_SIZE / 2
-        @paddles = [Paddle.new(self, PADDLE_LEFT_X, paddle_y, true), Paddle.new(self, PADDLE_RIGHT_X, paddle_y, false)]
+        @paddles = [Paddle.new(self, PADDLE_LEFT_X, paddle_y, true),
+                    Paddle.new(self, PADDLE_RIGHT_X, paddle_y, false)]
         @balls = []
         @bonuses = []
         @paddles.each { |paddle| @balls << paddle.create_new_ball }
-        # @balls = (-70..70).collect { |i| Ball.new(self, 40, 400, i) }
-        # @balls = [Ball.new(self, 10, 200, -45),Ball.new(self, 10, 200, -20),Ball.new(self, 10, 200, 0),Ball.new(self, 10, 200, 20),Ball.new(self, 10, 200, 45)]
         @map_database = MapDatabase.new(self)
         @map = @map_database.next_map
       end
@@ -37,9 +36,7 @@ module Arkanoid
       # for every element that is capable of doing so.
       def tick
         # move balls
-        @balls.each do |ball|
-          ball.move
-        end
+        @balls.each(&:move)
         # move bonuses
         @bonuses.delete_if do |bonus|
           bonus.move
@@ -47,11 +44,10 @@ module Arkanoid
         end
         # check for speedup
         @speedup_countdown -= 1
-        if @speedup_countdown == 0
-          @speedup_countdown = GAME_SPEEDUP_INTERVAL
-          @balls.each do |ball|
-            ball.speed *= 1.1
-          end
+        return unless @speedup_countdown.zero?
+        @speedup_countdown = GAME_SPEEDUP_INTERVAL
+        @balls.each do |ball|
+          ball.speed *= 1.1
         end
       end
 
@@ -62,14 +58,15 @@ module Arkanoid
         @balls.clear
         @bonuses.clear
         @paddles.each do |paddle|
-           #center the paddle
+          # center the paddle
           paddle.pos_y = @height / 2 - paddle.height / 2
           @balls << paddle.create_new_ball
         end
         @map = @map_database.next_map
       end
 
-      # This method is called by controller when player 1 clicks move paddle down.
+      # This method is called by controller when player 1 clicks
+      # move paddle down.
       def paddle_left_down
         @paddles[0].move_down
       end
@@ -84,7 +81,8 @@ module Arkanoid
         @paddles[0].release_all_balls
       end
 
-      # This method is called by controller when player 2 clicks move paddle down.
+      # This method is called by controller when player 2 clicks
+      # move paddle down.
       def paddle_right_down
         @paddles[1].move_down
       end
@@ -99,7 +97,8 @@ module Arkanoid
         @paddles[1].release_all_balls
       end
 
-      # Accept generic visitor for visiting components. This could be used for example
+      # Accept generic visitor for visiting components.
+      # This could be used for example
       # for components drawing to ensure low coupling in model tier.
       def accept_visitor(visitor)
         visitor.visit_left_paddle(@paddles[0])
@@ -109,14 +108,12 @@ module Arkanoid
         @balls.each { |ball| visitor.visit_ball(ball) }
       end
 
-
       # This method is called when one of the balls is lost.
       # It also informs which side the ball was lost on.
       def ball_lost(ball, left)
         @balls.delete(ball)
-        if @balls.length < 2
-          @balls << (left ? @paddles[0] : @paddles[1]).create_new_ball
-        end
+        return unless @balls.length < 2
+        @balls << (left ? @paddles[0] : @paddles[1]).create_new_ball
       end
     end
   end

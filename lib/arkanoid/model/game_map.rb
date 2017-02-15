@@ -15,7 +15,7 @@ module Arkanoid
             blocks[row][col] = Block.new(BlockType::GREEN, game)
           end
         end
-        self.new(game, blocks)
+        new(game, blocks)
       end
 
       # Generates map fully loaded with random blocks.
@@ -26,7 +26,7 @@ module Arkanoid
             blocks[row][col] = Block.new(BlockType.random, game)
           end
         end
-        self.new(game, blocks)
+        new(game, blocks)
       end
 
       # Initialize the game map with the game reference and 2D block array.
@@ -42,7 +42,8 @@ module Arkanoid
         store_block_positions!
       end
 
-      # Accept generic visitor for visiting components. This could be used for example
+      # Accept generic visitor for visiting components.
+      # This could be used for example
       # for components drawing to ensure low coupling in model tier.
       def accept_visitor(visitor)
         @blocks.each do |row|
@@ -58,24 +59,24 @@ module Arkanoid
         move_x, move_y = count_move_vector(ball)
         mx, my = pixels_to_grid(ball.x, ball.y)
         if inside?(mx, my)
-          # just to be sure - should not happen (only when the ball is very fast)
           ball.angle = (ball.angle + 180) % 360
           @blocks[my][mx] = nil if @blocks[my][mx].hit!
           return
         end
         xex = inside?(mx + move_x, my)
         yex = inside?(mx, my + move_y)
-        if xex or yex
+        if xex || yex
           if xex
-            @blocks[my][mx + move_x] = nil if @blocks[my][mx + move_x].ball_collision(ball, :h)
+            @blocks[my][mx + move_x] = nil if @blocks[my][mx + move_x]
+                                              .ball_collision(ball, :h)
           end
           if yex
-            @blocks[my + move_y][mx] = nil if @blocks[my + move_y][mx].ball_collision(ball, :v)
+            @blocks[my + move_y][mx] = nil if @blocks[my + move_y][mx]
+                                              .ball_collision(ball, :v)
           end
-        else
-          if inside?(mx + move_x, my + move_y)
-            @blocks[my + move_y][mx + move_x] = nil if @blocks[my + move_y][mx + move_x].ball_collision(ball, :d)
-          end
+        elsif inside?(mx + move_x, my + move_y) &&
+              @blocks[my + move_y][mx + move_x].ball_collision(ball, :d)
+          @blocks[my + move_y][mx + move_x] = nil
         end
       end
 
@@ -91,35 +92,36 @@ module Arkanoid
         end
       end
 
-      # Counts ball move vector - represented as two values and reduced to 45 degrees
+      # Counts ball move vector - represented as
+      # two values and reduced to 45 degrees
       def count_move_vector(ball)
         move_x = move_y = 0
-        if ball.angle > 270 or ball.angle < 90
+        if ball.angle > 270 || ball.angle < 90
           move_x = 1
-        elsif ball.angle > 90 and ball.angle < 270
+        elsif ball.angle > 90 && ball.angle < 270
           move_x = -1
         end
-        if ball.angle > 0 and ball.angle < 180
+        if ball.angle > 0 && ball.angle < 180
           move_y = 1
         elsif ball.angle > 180
           move_y = -1
         end
-        return move_x, move_y
+        [move_x, move_y]
       end
 
-      # Converts pixel coordinates to the grid values. Can be out of range of blocks.
+      # Converts pixel coordinates to the grid values.
+      # Can be out of range of blocks.
       # Index values are returned as column, row
       def pixels_to_grid(px, py)
-        return (px - @pos_x).div(BLOCK_SIZE), (py - @pos_y).div(BLOCK_SIZE)
+        [(px - @pos_x).div(BLOCK_SIZE), (py - @pos_y).div(BLOCK_SIZE)]
       end
 
       # Returns true if there exists block on the targeted grid coordinates.
       def inside?(col, row)
-        return false if col < 0 or row < 0
-        return false if row >= @blocks.length or col >= @blocks[0].length
-        not @blocks[row][col].nil?
+        return false if col < 0 || row < 0
+        return false if row >= @blocks.length || col >= @blocks[0].length
+        !@blocks[row][col].nil?
       end
-
     end
   end
 end

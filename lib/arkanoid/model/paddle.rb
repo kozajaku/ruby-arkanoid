@@ -9,8 +9,8 @@ module Arkanoid
 
       attr_accessor :pos_x, :pos_y, :height, :catchy, :speed
       attr_reader :game, :left_paddle
-      alias_method :x, :pos_x
-      alias_method :y, :pos_y
+      alias x pos_x
+      alias y pos_y
       # x, y represents top side of paddle, bottom is (x, y + height)
       def initialize(game, x, y, left_paddle)
         @game = game
@@ -23,7 +23,7 @@ module Arkanoid
         @catchy = false
       end
 
-      #try to move the paddle up if possible
+      # try to move the paddle up if possible
       def move_up
         next_y = @pos_y - @speed
         next_y = @game.top_wall if next_y < @game.top_wall
@@ -35,7 +35,8 @@ module Arkanoid
       # try to move the paddle down if possible
       def move_down
         next_y = @pos_y + @speed
-        next_y = @game.bottom_wall - @height if next_y + @height > @game.bottom_wall
+        bw = @game.bottom_wall
+        next_y = bw - @height if next_y + @height > bw
         delta = next_y - @pos_y
         @pos_y = next_y
         @caught_balls.each { |ball| ball.pos_y += delta }
@@ -45,10 +46,10 @@ module Arkanoid
       # bounces ball back to the game.
       def ball_collision(ball)
         angle = ball.angle
-        if 90 < angle and angle < 270
+        if 90 < angle && angle < 270
           # detect bounce from the right side
           ball_right_collision(ball)
-        elsif angle < 90 or angle > 270
+        elsif angle < 90 || angle > 270
           # detect bounce from the left side
           ball_left_collision(ball)
         end
@@ -66,9 +67,7 @@ module Arkanoid
       end
 
       def release_all_balls
-        @caught_balls.each do |ball|
-          ball.release_ball
-        end
+        @caught_balls.each(&:release_ball)
       end
 
       # Generates a new ball lying on the paddle.
@@ -101,9 +100,7 @@ module Arkanoid
           catch_ball(ball)
         else
           delta = ball.x - ball.radius - @pos_x
-          if delta < 0
-            ball.x = @pos_x - delta + ball.radius
-          end
+          ball.x = @pos_x - delta + ball.radius if delta < 0
         end
       end
 
@@ -124,9 +121,7 @@ module Arkanoid
           catch_ball(ball)
         else
           delta = @pos_x - (ball.x + ball.radius)
-          if delta < 0
-            ball.x = @pos_x + delta - ball.radius
-          end
+          ball.x = @pos_x + delta - ball.radius if delta < 0
         end
       end
 
@@ -145,18 +140,18 @@ module Arkanoid
       # If there is no such collision, returns nil.
       def collision_y_point(ball)
         b = -2 * ball.y
-        c = (ball.y ** 2) - (ball.radius ** 2) + ((@pos_x - ball.x) ** 2)
-        discriminant = b ** 2 - 4 * c
+        c = (ball.y**2) - (ball.radius**2) + ((@pos_x - ball.x)**2)
+        discriminant = b**2 - 4 * c
         return nil if discriminant < 0 # no collision with paddle
         # it is still possible that there is no collision
         y1 = (-b + Math.sqrt(discriminant)) / 2.0
         y2 = (-b - Math.sqrt(discriminant)) / 2.0
         py1 = @pos_y
         py2 = @pos_y + @height
-        if y1.between?(py1, py2) and y2.between?(py1, py2)
+        if y1.between?(py1, py2) && y2.between?(py1, py2)
           # both collision points are on the paddle - return avg
           (y1 + y2) / 2
-        elsif y1.between?(py1, py2) or y2.between?(py1, py2)
+        elsif y1.between?(py1, py2) || y2.between?(py1, py2)
           # exactly one point is on the paddle
           avg = (y1 + y2) / 2
           if avg.between?(py1, py2)
@@ -166,8 +161,6 @@ module Arkanoid
           else
             py2
           end
-        else
-          nil
         end
       end
     end
