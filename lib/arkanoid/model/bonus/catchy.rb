@@ -2,6 +2,8 @@ require_relative 'bonus'
 module Arkanoid
   module Model
     module Bonus
+      # Represents the bonus where the paddle
+      # should become catchy for every ball.
       class Catchy < AbstractBonus
         def apply_bonus!
           @paddle.catchy = true

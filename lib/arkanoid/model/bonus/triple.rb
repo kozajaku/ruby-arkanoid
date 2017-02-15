@@ -2,6 +2,8 @@ require_relative 'bonus'
 module Arkanoid
   module Model
     module Bonus
+      # This class represents a bonus
+      # that triples all ball in the game.
       class Triple < AbstractBonus
         def apply_bonus!
           balls = @paddle.game.balls

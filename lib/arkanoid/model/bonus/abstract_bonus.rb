@@ -1,12 +1,14 @@
 module Arkanoid
   module Model
     module Bonus
+      # Represents an abstract bonus.
+      # Every concrete bonus should inherit from this class.
       class AbstractBonus
         include Constants
 
         attr_reader :pos_x, :pos_y
-        alias_method :x, :pos_x
-        alias_method :y, :pos_y
+        alias x pos_x
+        alias y pos_y
 
         def initialize(x, y, paddle)
           @pos_x = x
@@ -16,28 +18,24 @@ module Arkanoid
         end
 
         def move
-          if @paddle.left_paddle
-            @pos_x -= BONUS_SPEED
-          else
-            @pos_x += BONUS_SPEED
-          end
-          if @pos_x < @paddle.x and @pos_x + BONUS_SIZE > @paddle.x
-            if @pos_y > @paddle.y - BONUS_SIZE and @pos_y < @paddle.y + @paddle.height
-              @disposed = true
-              apply_bonus!
-            end
+          @pos_x += BONUS_SPEED * (@paddle.left_paddle ? -1 : 1)
+          if @pos_x < @paddle.x &&
+             @pos_x + BONUS_SIZE > @paddle.x &&
+             @pos_y > @paddle.y - BONUS_SIZE &&
+             @pos_y < @paddle.y + @paddle.height
+            @disposed = true
+            apply_bonus!
           end
         end
 
-        def is_out?
+        def out?
           return true if @disposed
-          true if @pos_x + BONUS_SIZE < 0 or @pos_x > GAME_WIDTH
+          true if @pos_x + BONUS_SIZE < 0 || @pos_x > GAME_WIDTH
         end
 
         def apply_bonus!
           raise NotImplementedError
         end
-
       end
     end
   end

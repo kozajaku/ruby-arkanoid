@@ -13,12 +13,13 @@ require_relative 'random_bonus'
 
 module Arkanoid
   module Model
+    # This module represents a namespace for all ingame bonuses.
     module Bonus
       # Creates random bonus running to the random side.
       def self.random_bonus(x, y, game)
         rand_paddle = game.paddles.sample
         ObjectSpace.each_object(Class).select { |klass| klass < AbstractBonus }
-            .sample.new(x, y, rand_paddle)
+                   .sample.new(x, y, rand_paddle)
       end
     end
   end

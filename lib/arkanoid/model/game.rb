@@ -43,7 +43,7 @@ module Arkanoid
         # move bonuses
         @bonuses.delete_if do |bonus|
           bonus.move
-          bonus.is_out?
+          bonus.out?
         end
         # check for speedup
         @speedup_countdown -= 1

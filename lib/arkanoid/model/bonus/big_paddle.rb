@@ -2,6 +2,8 @@ require_relative 'bonus'
 module Arkanoid
   module Model
     module Bonus
+      # Represents a bonus where the paddle
+      # is to be enlarged.
       class BigPaddle < AbstractBonus
         def apply_bonus!
           curr = @paddle.height

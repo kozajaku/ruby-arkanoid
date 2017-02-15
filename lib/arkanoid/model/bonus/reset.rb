@@ -2,6 +2,8 @@ require_relative 'bonus'
 module Arkanoid
   module Model
     module Bonus
+      # This class represents bonus that
+      # Should reset all paddle bonuses.
       class Reset < AbstractBonus
         def apply_bonus!
           # reset catchy
