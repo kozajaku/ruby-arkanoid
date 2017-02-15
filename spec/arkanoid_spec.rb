@@ -1,11 +1,19 @@
-require "spec_helper"
+require 'spec_helper'
 
-RSpec.describe Arkanoid do
-  it "has a version number" do
+describe Arkanoid do
+  it 'has a version number' do
     expect(Arkanoid::VERSION).not_to be nil
   end
 
-  it "does something useful" do
-    expect(true).to eq(true)
+  it 'has model' do
+    expect(Arkanoid::Model).not_to be nil
+  end
+
+  it 'has gui' do
+    expect(Arkanoid::Gui).not_to be nil
+  end
+
+  it 'can start game' do
+    expect(Arkanoid).to respond_to :show_window
   end
 end

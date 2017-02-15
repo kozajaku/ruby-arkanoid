@@ -1,5 +1,5 @@
-require "bundler/setup"
-require "arkanoid"
+require 'bundler/setup'
+require 'arkanoid'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
