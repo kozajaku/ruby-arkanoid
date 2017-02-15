@@ -15,9 +15,9 @@ module Arkanoid
       end
 
       def next_map
+        res = @maps[@current_map_index].clone
         @current_map_index += 1
         @current_map_index %= @maps.length
-        res = @maps[@current_map_index].clone
         GameMap.new(@game, res)
       end
 

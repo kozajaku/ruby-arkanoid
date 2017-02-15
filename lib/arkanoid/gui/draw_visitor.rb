@@ -30,6 +30,7 @@ module Arkanoid
             bonus_types::DecBalls => Gosu::Image.new(media 'bonuses/red-down.png'),
             bonus_types::IncPaddle => Gosu::Image.new(media 'bonuses/orange-up.png'),
             bonus_types::DecPaddle => Gosu::Image.new(media 'bonuses/orange-down.png'),
+            bonus_types::Reset => Gosu::Image.new(media 'bonuses/gray.png'),
             bonus_types::RandomBonus => Gosu::Image.new(media 'bonuses/purple.png')
         }
       end

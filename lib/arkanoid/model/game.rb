@@ -57,7 +57,7 @@ module Arkanoid
 
       # Called when it is necessary to change the map in the game.
       # This method resets balls and paddles to its original positions.
-      def next_map
+      def next_map!
         @speedup_countdown = GAME_SPEEDUP_INTERVAL
         @balls.clear
         @bonuses.clear

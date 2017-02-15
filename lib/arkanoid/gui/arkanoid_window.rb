@@ -53,6 +53,10 @@ module Arkanoid
       def needs_cursor?
         true
       end
+
+      def button_down(id)
+        @game.next_map! if id == Gosu::KB_N
+      end
     end
   end
 end
