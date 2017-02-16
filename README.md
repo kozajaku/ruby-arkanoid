@@ -1,29 +1,21 @@
 [![Build Status](https://travis-ci.com/kozajaku/ruby-arkanoid.svg?token=qexzosAyQM9jnGAQRNvZ&branch=master)](https://travis-ci.com/kozajaku/ruby-arkanoid)
 # Arkanoid
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/arkanoid`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Welcome to the simple Arkanoid game for two players. This whole application
+is written in Ruby using a graphical Gosu framework.
 
 ## Installation
 
-Add this line to your application's Gemfile:
+To install the application execute:
 
-```ruby
-gem 'arkanoid'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install arkanoid
+    $ bundle exec rake install
 
 ## Usage
 
-TODO: Write usage instructions here
+After installation the game is installed on your system as 
+an executable. To start the game simply execute:
+ 
+    $ arkanoid
 
 ## Development
 
@@ -33,7 +25,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/Jakub Koza/arkanoid. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/kozajaku/arkanoid. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 
 ## License
