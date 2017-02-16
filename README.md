@@ -6,6 +6,8 @@ is written in Ruby using a graphical Gosu framework.
 
 ## Installation
 
+You will firstly need to install Gosu library requirements. For more information about how to install Gosu proceed to [Gosu Wiki](https://github.com/gosu/gosu/wiki) .
+
 To install the application execute:
 
     $ bundle exec rake install
