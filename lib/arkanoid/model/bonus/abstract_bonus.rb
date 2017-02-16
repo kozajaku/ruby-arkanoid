@@ -30,7 +30,8 @@ module Arkanoid
 
         def out?
           return true if @disposed
-          true if @pos_x + BONUS_SIZE < 0 || @pos_x > GAME_WIDTH
+          return true if @pos_x + BONUS_SIZE < 0 || @pos_x > GAME_WIDTH
+          false
         end
 
         def apply_bonus!

@@ -50,29 +50,29 @@ module Arkanoid
       def load_block_images
         blt = Model::Constants::BlockType
         {
-          blt::BLACK => Gosu::Image.new(media('blocks/block_black.png')),
-          blt::BLUE => Gosu::Image.new(media('blocks/block_blue.png')),
-          blt::GRAY => Gosu::Image.new(media('blocks/block_gray.png')),
-          blt::GREEN => Gosu::Image.new(media('blocks/block_green.png')),
-          blt::ORANGE => Gosu::Image.new(media('blocks/block_orange.png')),
-          blt::RED => Gosu::Image.new(media('blocks/block_red.png')),
-          blt::YELLOW => Gosu::Image.new(media('blocks/block_yellow.png'))
+            blt::BLACK => Gosu::Image.new(media('blocks/block_black.png')),
+            blt::BLUE => Gosu::Image.new(media('blocks/block_blue.png')),
+            blt::GRAY => Gosu::Image.new(media('blocks/block_gray.png')),
+            blt::GREEN => Gosu::Image.new(media('blocks/block_green.png')),
+            blt::ORANGE => Gosu::Image.new(media('blocks/block_orange.png')),
+            blt::RED => Gosu::Image.new(media('blocks/block_red.png')),
+            blt::YELLOW => Gosu::Image.new(media('blocks/block_yellow.png'))
         }.freeze
       end
 
       def load_bonus_images
         bt = Model::Bonus
         {
-          bt::Triple => Gosu::Image.new(media('bonuses/lblue.png')),
-          bt::Catchy => Gosu::Image.new(media('bonuses/green.png')),
-          bt::BigPaddle => Gosu::Image.new(media('bonuses/dblue-up.png')),
-          bt::SmallPaddle => Gosu::Image.new(media('bonuses/dblue-down.png')),
-          bt::IncBalls => Gosu::Image.new(media('bonuses/red-up.png')),
-          bt::DecBalls => Gosu::Image.new(media('bonuses/red-down.png')),
-          bt::IncPaddle => Gosu::Image.new(media('bonuses/orange-up.png')),
-          bt::DecPaddle => Gosu::Image.new(media('bonuses/orange-down.png')),
-          bt::Reset => Gosu::Image.new(media('bonuses/gray.png')),
-          bt::RandomBonus => Gosu::Image.new(media('bonuses/purple.png'))
+            bt::Triple => Gosu::Image.new(media('bonuses/lblue.png')),
+            bt::Catchy => Gosu::Image.new(media('bonuses/green.png')),
+            bt::BigPaddle => Gosu::Image.new(media('bonuses/dblue-up.png')),
+            bt::SmallPaddle => Gosu::Image.new(media('bonuses/dblue-down.png')),
+            bt::IncBalls => Gosu::Image.new(media('bonuses/red-up.png')),
+            bt::DecBalls => Gosu::Image.new(media('bonuses/red-down.png')),
+            bt::IncPaddle => Gosu::Image.new(media('bonuses/orange-up.png')),
+            bt::DecPaddle => Gosu::Image.new(media('bonuses/orange-down.png')),
+            bt::Reset => Gosu::Image.new(media('bonuses/gray.png')),
+            bt::RandomBonus => Gosu::Image.new(media('bonuses/purple.png'))
         }.freeze
       end
     end
